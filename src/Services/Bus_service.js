@@ -74,7 +74,7 @@ class Bus_service {
     datewisedatapto = async(pto,dateto,datefrom) => {
         return await axios.get(`${MASTER_API_URL}/busperformance/getWaybillDataBetweenDate/${dateto}/${datefrom}/${pto}`);
     }
-    // getAllData
+    // Frequency - Bus km  //getAllData
     getAllData = async(dateto,datefrom) => {
         return await axios.get(`${MASTER_API_URL}/busperformance/getDataBy/${dateto}/${datefrom}`);
     }
@@ -100,6 +100,14 @@ class Bus_service {
     
     getAllAccidents = async(dateto,datefrom) => {
         return await axios.get(`${MASTER_API_URL}/busperformance/dataBetweenDates/${dateto}/${datefrom}`)
+    }
+    //For Frequency -- bus details
+    getFrequencyData = async(busno, dateto,datefrom) => {
+        return await axios.get(`${MASTER_API_URL}/busperformance/ByBusNo/${busno}/${dateto}/${datefrom}`);
+    }
+    // http://10.226.33.132:9100/busperformance/getMergeMultipleApi/UP14KT5935/2024-01-01/2024-01-31
+    getTripFrequencyData = async(regno, dateto,datefrom) => {
+        return await axios.get(`${MASTER_API_URL}/busperformance/getMergeMultipleApi/${regno}/${dateto}/${datefrom}`);
     }
 }
 export default new Bus_service();

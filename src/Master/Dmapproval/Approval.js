@@ -30,6 +30,7 @@ function Approval(props) {
   const [instance,setinstance] = useState('');
   const [penalty,setpenalty] = useState('');
   const [remarks,setremarks] = useState('');
+  const [premium,setPremium] = useState('');
   const [penaltydetail,setpenaltydetail] = useState('');
   const [sladetails,setsladetails] = useState([]);
   const [slafordetails,setslafordetails] = useState([]);
@@ -52,7 +53,15 @@ function Approval(props) {
   const cleanform = !props.updateid && props.open ;
 
   const { updateid } = props.updateid;
-  // console.log(props.updatedetails)
+
+  useEffect(()=>{
+    const penaltyPercentage = props.updatedetails.penaltypercentage;
+    const fixedAmount = 200000; // 2 lakh
+    const penaltyAmount = (fixedAmount * penaltyPercentage)/100;
+    const amountToPay = fixedAmount+penaltyAmount
+    setPremium(amountToPay);
+
+  },[])  // console.log(props.updatedetails)
 
   useEffect(()=>{
     if(cleanform){
@@ -70,12 +79,37 @@ function Approval(props) {
     }
   },[cleanform])
 
+  const calculatePenalty = () => {
+    console.log("first")
+    // Assuming penaltypercentage is in decimal (e.g., 0.05 for 5%)
+    const penaltyPercentage = props.updatedetails.penaltypercentage;
+    const fixedAmount = 200000; // 2 lakh
+    const penaltyAmount = (fixedAmount * penaltyPercentage)/100;
+    const amountToPay = fixedAmount+penaltyAmount
+   
+  console.log(amountToPay);
+    return amountToPay;
+};
+const calculateIncentive = () => {
 
+  const incentivePercentage = props.updatedetails.incentivepercentage;
+  const fixedAmount = 200000; // 2 lakh
+  const incentiveAmount = (fixedAmount * incentivePercentage)/100;
+  const amountToPay = fixedAmount-incentiveAmount
+  
+  return amountToPay;
+};
   const busmasterdetails = (id) =>{
     // console.log('clicked');
     // console.log("g",approvalid);
-
-    axios.put(`http://10.226.33.132:9100/busperformance/setisapproved/${approvalid}/${remarks}`).then((res)=>{
+    // const penaltyAmount = calculatePenalty();
+    // console.log("Penalty to Pay:", penaltyAmount);
+    const penaltyPercentage = props.updatedetails.penaltypercentage;
+    const fixedAmount = 200000; // 2 lakh
+    const penaltyAmount = (fixedAmount * penaltyPercentage) / 100;
+    const amountToPay = fixedAmount + penaltyAmount;
+    
+    axios.put(`http://10.226.33.132:9100/busperformance/setisapproved/${approvalid}/${remarks}/${amountToPay}`).then((res)=>{
         props.onClose();
         setSnackcolor("#458a32");
         setErrormessage(" Approved ")
@@ -294,25 +328,37 @@ const submitbutton = () => {
     <strong>Quality Type:</strong> {props.updatedetails.qualityStandardMaster ? props.updatedetails.qualityStandardMaster.qualitytype : 'N/A'}
   </Typography>
 
-  {props.updatedetails.penalty && (
+  {props.updatedetails.penalty? 
     <>
-    <Typography variant="body1" style={{ marginBottom: "8px" }}>
+    {/* <Typography variant="body1" style={{ marginBottom: "8px" }}>
       <strong>Penalty:</strong> {props.updatedetails.penalty} 
-    </Typography>
+    </Typography> */}
      <Typography variant="body1" style={{ marginBottom: "8px" }}>
        <strong>Penalty Percentage:</strong> {props.updatedetails.penaltypercentage}
      </Typography>
-     </>
-  )}
+     <Typography variant="body1" style={{ marginBottom: "8px" }}>
+       <strong>Monthly Cost:</strong> 2,00,000
+     </Typography>
+     <Typography variant="body1" style={{ marginBottom: "8px" }}>
+       <strong>Premium:</strong> {calculatePenalty()}
+     </Typography>
+     </>:""
+  }
 
 
   {props.updatedetails.incentive && (
     <>
-    <Typography variant="body1" style={{ marginBottom: "8px" }}>
+    {/* <Typography variant="body1" style={{ marginBottom: "8px" }}>
     <strong>Incentive:</strong> {props.updatedetails.incentive}
-    </Typography>
+    </Typography> */}
      <Typography variant="body1" style={{ marginBottom: "8px" }}>
      <strong> Incentive Percentage:</strong> {props.updatedetails.incentivepercentage}
+     </Typography>
+     <Typography variant="body1" style={{ marginBottom: "8px" }}>
+       <strong>Monthly Cost:</strong> 2,00,000
+     </Typography>
+     <Typography variant="body1" style={{ marginBottom: "8px" }}>
+       <strong>Premium:</strong> {calculateIncentive()}
      </Typography>
      </>
   

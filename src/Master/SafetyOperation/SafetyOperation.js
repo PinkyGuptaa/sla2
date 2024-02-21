@@ -63,7 +63,8 @@ const [totalCoveredDistance, setTotalCoveredDistance] = useState(0);
   const [majorCount, setMajorCount] = useState(0);
   const [minorCount, setMinorCount] = useState(0);
   const [distance, setDistance] = useState(0);
-
+  const [alreadyfilledMinor,setAlreadyfilledMinor] = useState("");
+  const [alreadyfilledMajor,setAlreadyfilledMajor] =useState("");
   const styles = {
       
     valueContainer: (css) => ({
@@ -576,13 +577,15 @@ sx={{
 
   }
   {aftersearch && (
-  <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '30px' }}>
-    {/* Minor Accident Table */}
- {/* Minor Accident Table */}
-<div style={{ width: '48%' }}>
-  <Typography variant="h6" gutterBottom>
-    Minor Accidents
-  </Typography>
+  <div style={{ display: 'flex',width: "100%",justifyContent: "center",
+  // backgroundColor: "#267871",
+  
+  paddingBottom: "50px",
+  paddingTop: "20px", }}>
+
+    <div style={{display: "flex",marginRight: "20px",width: "40%",flexDirection: "column", alignItems: "center",
+    backgroundColor: "#136a8a54"}}>
+     <h2>Minor Accidents</h2>
   <table className="accident-table">
     <thead>
       <tr>
@@ -610,21 +613,27 @@ sx={{
     </tbody>
   </table>
   <p> Minor Accidents Factor: {MinorAccident}</p>
+  {alreadyfilledMinor?<p style={{color:"red"}}>Incentive/Penalty already filled.</p>:""}
   <p>{MinorAccident>=0.01?
-           <Button onClick={()=>handleButtonClick("minoraccident","penalty")} style={{padding:"10px",backgroundColor:"maroon",color:"white",cursor:"pointer"}}>
+           <Button onClick={()=>handleButtonClick("minoraccident","penalty")}
+           disabled={alreadyfilledMinor}
+           style={{padding:"10px",
+           backgroundColor:alreadyfilledMinor?"lightgrey":"maroon",
+           color:"white",cursor:"pointer"}}>
              Action </Button>
              :MinorAccident<0.01?
-             <Button onClick={()=>handleButtonClick("minoraccident","incentive")} 
-             style={{padding:"10px",backgroundColor:"lightgreen",color:"white",cursor:"pointer"}}>
+             <Button 
+             onClick={()=>handleButtonClick("minoraccident","incentive")}
+             disabled={alreadyfilledMinor} 
+             style={{padding:"10px",backgroundColor:alreadyfilledMinor?"lightgrey":"#188718",color:"white",cursor:"pointer"}}>
              Incentive </Button>:""}</p>
 </div>
 
 
     {/* Major Accident Table */}
-    <div style={{ width: '48%' }}>
-      <Typography variant="h6" gutterBottom>
-        Major Accidents
-      </Typography>
+    <div style={{display: "flex",marginRight: "20px",width: "40%",flexDirection: "column", alignItems: "center",
+    backgroundColor: "#136a8a54" }}>
+   <h2>Major Accidents</h2>
      
   <table className="accident-table">
     <thead>
@@ -653,9 +662,15 @@ sx={{
     </tbody>
   </table>
 
-   <p>No. of Major Accidents: {majorCount}   
+   <p>No. of Major Accidents: {majorCount}  </p> 
+   {alreadyfilledMajor?<p style={{color:"red"}}>Penalty already filled.</p>:""}
+<p>
    {majorCount>=1?
-           <Button onClick={()=>handleButtonClick("majoraccident","penalty")} style={{padding:"10px",backgroundColor:"maroon",color:"white",cursor:"pointer",marginLeft:"10px"}}>
+           <Button onClick={()=>handleButtonClick("majoraccident","penalty")} 
+           disabled={alreadyfilledMajor}
+           style={{padding:"10px",
+           backgroundColor:alreadyfilledMajor?"lightgrey":"maroon",
+           color:"white",cursor:"pointer",marginLeft:"10px"}}>
              Action </Button>:""}</p> 
             
              {isAddBusOpen?typeformodal==="penalty"?

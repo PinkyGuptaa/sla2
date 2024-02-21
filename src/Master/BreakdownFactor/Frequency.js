@@ -652,8 +652,13 @@ sx={{
     </p>
     {allreadyfilledbuskm?<p style={{color:"red"}}>Incentive/Penalty already filled.</p>:""}
     <p>{BusKMsFrequency<=93?
-           <Button onClick={()=>handleButtonClick("buskmfrequency","penalty")} disabled={allreadyfilledbuskm} style={{padding:"10px",backgroundColor:allreadyfilledbuskm?"lightgrey":"maroon",color:"white",cursor:"pointer"}}>
-             Action </Button>:BusKMsFrequency>95?<Button onClick={()=>handleButtonClick("buskmfrequency","incentive")} 
+           <Button onClick={()=>handleButtonClick("buskmfrequency","penalty")} 
+           disabled={allreadyfilledbuskm}
+            style={{padding:"10px",
+            backgroundColor:allreadyfilledbuskm?"lightgrey":"maroon",
+            color:"white",cursor:"pointer"}}>
+             Action </Button>:BusKMsFrequency>95?<Button 
+             onClick={()=>handleButtonClick("buskmfrequency","incentive")} 
              disabled={allreadyfilledbuskm} style={{padding:"10px",backgroundColor:allreadyfilledbuskm?"lightgrey":"#188718",color:"white",cursor:"pointer"}}>
              Incentive </Button>:""}</p>
             
